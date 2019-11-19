@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="utf-8">
+<title>EQ Store</title>
+<link href="../css/user_css.css" type="text/css"  rel="stylesheet">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+  <%- include(header) %>
+
+<div class="all">
+  <% for(var i = 0; i < goods.length; i++) { %>
+  <div class="card">
+    <img src="/css/23.jpg" alt="good" style="width:100%">
+    <h1><%= goods[i]['title'] %></h1>
+    <p class="price"><%= goods[i]['price'] %> $ <%if ((goods[i]['discount']!==0))
+       { %> -<%= goods[i]['discount'] %>%<% } %></p>
+    <p>Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum.</p>
+    <p><button onclick="add_to_basket(<%= goods[i]['id'] %>)">Add to Basket</button></p>
+  </div>
+    <%  } %>
+
+    <nav>
+     <ul class="pag">
+       <li class="page-item
+         <%if (parseInt(pageId)<=0) { %>
+             disabled
+         <% } %>
+         "><a class="page-link" href="/goods/<%= parseInt(pageId)-1 %>">Previous</a></li>
+     <% for(var i = 0; i < cnt; i++) { %>
+         <li class = "page-item
+         <%if (parseInt(i)==(pageId)) { %>
+             active
+         <% } %>
+         ">
+           <a class="page-link" href="/goods/<%= i %>"><%= i+1 %></a>
+         </li>
+     <%  } %>
+     <li class="page-item
+     <%if (parseInt(pageId)>=(cnt-1)) { %>
+         disabled
+     <% } %>
+     "><a class="page-link" href="/goods/<%= parseInt(pageId)+1 %>">Next</a></li>
+     </ul>
+   </nav>
+ </div>
+
+ <script>
+function add_to_basket(id)
+{
+    $.ajax({
+    url:"/goods",
+    method:"POST",
+    data:{
+      id: id,
+    },
+    success:function(response) {
+    },
+   error:function(){
+    alert("error");
+   }
+  });
+}
+</script>
+
+
+</body>
+</html>

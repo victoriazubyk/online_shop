@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="css/add.css" type="text/css" rel="stylesheet">
+<link href="css/user_css.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+<%- include(header) %>
+<div class="container">
+  <form action="/add" method="post">
+    <div >
+      <input type="text" placeholder="Enter Title" name="title" required>
+      <input type="text" placeholder="Enter Price" name="price" required>
+      <button type="submit" class="registerbtn">Add product</button>
+    </div>
+  </form>
+</div>
+
+
+</body>
+</html>

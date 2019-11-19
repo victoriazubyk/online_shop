@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+  <title>EQ Store</title>
+  <link href="../css/user_css.css" type="text/css" rel="stylesheet">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+
+  <%- include(header) %>
+
+<div class="all">
+  <% for(var i = 0; i < goods.length; i++) { %>
+  <div class="card">
+    <img src="/css/23.jpg" alt="good" style="width:100%">
+    <h1><%= goods[i]['title'] %></h1>
+    <p><%= goods[i]['price'] %> $</p>
+       <div class="discount">
+         <input type="number" id="discount_<%= goods[i]['id']%>" name="discount" min="0" max="100" value="<%= goods[i]['discount']%>">
+         <button onclick="add_discount(<%= goods[i]['id'] %>)" class="goods-add-discount">Add Discount</button>
+       </div>
+       <div class="delete">
+         <button onclick="delete_goods(<%= goods[i]['id'] %>)" class="goods-delete">Delete</button>
+       </div>
+      </div>
+    <%  } %>
+
+    <nav>
+     <ul class="pag">
+       <li class="page-item
+         <%if (parseInt(pageId)<=0) { %>
+             disabled
+         <% } %>
+         "><a class="page-link" href="/goods/<%= parseInt(pageId)-1 %>">Previous</a></li>
+     <% for(var i = 0; i < cnt; i++) { %>
+         <li class = "page-item
+         <%if (parseInt(i)==(pageId)) { %>
+             active
+         <% } %>
+         ">
+           <a class="page-link" href="/goods/<%= i %>"><%= i+1 %></a>
+         </li>
+     <%  } %>
+     <li class="page-item
+     <%if (parseInt(pageId)>=(cnt-1)) { %>
+         disabled
+     <% } %>
+     "><a class="page-link" href="/goods/<%= parseInt(pageId)+1 %>">Next</a></li>
+     </ul>
+   </nav>
+</div>
+ <script>
+ function delete_goods(id)
+ {
+   $("#btn_delete_product_"+ id).remove();
+     $.ajax({
+     url:"/goods-delete",
+     method:"POST",
+     data:{
+       id: id,
+     },
+     success:function(response) {
+     },
+    error:function(){
+     alert("error");
+    }
+   });
+ }
+ function add_discount(id)
+ {
+   if($('#discount_'+id).val()=='') alert("Choose dicount!")
+   else{
+         $.ajax({
+         url:"/goods-discount",
+         method:"POST",
+         data:{
+           id: id,
+           discount: $('#discount_'+ id).val(),
+         },
+         success:function(response) {
+         },
+        error:function(){
+         alert("error");
+        }
+       });
+     }
+ }
+ </script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
+
+</body>
+</html>

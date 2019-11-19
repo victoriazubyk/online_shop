@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+    <title>EQstore</title>
+    <link href="css/user_css.css" type="text/css"  rel="stylesheet">
+    <script async src="user_js.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+
+<%- include(header) %>
+
+<% for(var i = 0; i < goods.length; i++) { %>
+
+<div id="btn_delete_goods_<%= goods[i]['id'] %>" class="all">
+  <h1 style="text-align:center" id="wh" >Product Card</h1>
+
+  <div class="card">
+    <img src="/css/23.jpg" alt="D" style="width:100%">
+    <h1><%= goods[i]['title'] %></h1>
+    <p class="price">Price <%= goods[i]['price'] %>$</p>
+    <p>Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum.</p>
+    <div >
+      <button onclick="delete_from_basket(<%= goods[i]['id'] %>)" class="basket-buy">Cancel</button>
+    </div>
+  </div>
+<%  } %>
+<% if(goods.length!=0){ %>
+  <div class="row"><button onclick="buy_all_from_basket()" class="basket-order">Buy All</button></div>
+<% }else{ %>
+  </div>
+  <% } %>
+
+</div>
+
+<script>
+function delete_from_basket(id)
+{
+  $("#btn_delete_goods_" ).remove();
+    $.ajax({
+    url:"/basket-delete",
+    method:"POST",
+    data:{
+      id: id,
+    },
+    success:function(response) {
+    },
+   error:function(){
+    alert("error");
+   }
+ }).done(function(result){
+      location.reload();
+  });
+}
+function buy_all_from_basket()
+{
+    $(".basket-single").remove();
+    $(".basket-order").remove();
+    $.ajax({
+    url:"/basket-buy-all",
+    method:"POST",
+    data:{
+    },
+    success:function(response) {
+    },
+   error:function(){
+    alert("error");
+   }
+  });
+}
+</script>
+
+</body>
+</html>
